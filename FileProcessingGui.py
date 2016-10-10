@@ -1,13 +1,19 @@
 # Useful Gui app for accepting one file input, processing the input file,
 # and then saving the output.
-
+#
 # You must pass the containing widget as the 1st argument and the function
-# you wish to run on the file as the 2nd argument.
+# you wish to run on the input file as the 2nd argument. This is a function
+# you will define but currently that function should accept inputfilename
+# and outputfilename parameters.
+#
+# Modify the FileProcessingGui class variables def_out_ext, default_in,
+# and default_out to change the extension the output file will as saved as,
+# the default input file name and the default output file name respectively.
 
-from Tkinter import *  # for all the GUI widgets
-import tkMessageBox
-from tkFileDialog import askopenfilename
-from tkFileDialog import asksaveasfilename
+from tkinter import *  # for all the GUI widgets
+from tkinter import messagebox
+from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import asksaveasfilename
 
 import os  # for selecting default input/output directory/file
 import re  # for manipulating dir/filename
@@ -104,13 +110,13 @@ class FileProcessingGui:
         try:
             inputfile = open(in_file, 'r')
         except IOError:
-            tkMessageBox.showwarning("File Error", "Failed to open file: %s\n"
+            messagebox.showwarning("File Error", "Failed to open file: %s\n"
                                                    "Make sure the filename is correct." % in_file)
             return
         try:
             outputfile = open(out_file, 'w')
         except IOError:
-            tkMessageBox.showwarning("File Error", "Failed to create output file!\n"
+            messagebox.showwarning("File Error", "Failed to create output file!\n"
                                                  "If overwriting, make sure the file is not open.")
             return
         self.process_function(inputfile, outputfile)

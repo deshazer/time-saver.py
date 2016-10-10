@@ -1,10 +1,11 @@
 import re
 
-#   usage: process_csv_separate_addr( PathToCsvFile )
-#   Opens the input file if it's a CSV
+#   usage: process_csv_separate_addr( inputfile, outputfile )
+#   Opens the file specified by param inputfile
 #   Reads the entire file into a string
 #   Processes the string to separate out the address into 4 columns
-#   Returns the modified string
+#   Writes the output to the file name specified by the param outputfile
+#   Closing of the opened files should be handled outside the call to this method
 def process_csv_separate_addr(inputfile, outputfile):
 
 
@@ -13,7 +14,6 @@ def process_csv_separate_addr(inputfile, outputfile):
 
     #Read in the rest of the file
     originaltext = inputfile.read()
-    #inputfile.close()
 
     # Handles situations where the package is being shipped care-of someone
     # Comment this out if you don't want c/o...etc to appear in the same cell as the street address
@@ -38,4 +38,3 @@ def process_csv_separate_addr(inputfile, outputfile):
     outputfile.write("Order Number / RMA #,Serial Number,Date,Customer Name,Address,City,State,Zip,"
                     "Phone Number,Email Address,Special Instructions\n")
     outputfile.write(output)
-    #outputfile.close()
