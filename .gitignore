@@ -1,0 +1,9 @@
+# ignore the dist/ directory
+dist/
+
+# ignore the .idea/ directory
+.idea/
+
+# ignore compiled python files
+*.pyc
+
