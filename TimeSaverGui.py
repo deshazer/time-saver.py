@@ -1,8 +1,9 @@
 # Create a gui of the FileProcessingGui class centered on the screen
-# Please modify the class FileProcessingGui
+# Please modify the class FileProcessingGui with the specifics of your
+# application.
 
 from tkinter import *
-from time_saver import process_csv_separate_addr
+from TimeSaver import process_csv_separate_addr
 from FileProcessingGui import FileProcessingGui
 
 

@@ -19,10 +19,16 @@ import os  # for selecting default input/output directory/file
 import re  # for manipulating dir/filename
 import datetime  # for creating date specific default output filename
 
-# Useful wrapper for setting text in a textbox
+# Useful wrapper for setting text in a Text/Entry widget
 def set_text(textbox, text):
-    textbox.delete("1.0", END)
-    textbox.insert("1.0", text)
+    if isinstance(textbox, Text):
+        textbox.delete("1.0", END)
+    elif isinstance(textbox, Entry):
+        textbox.delete("0", END)
+    else:
+        return print("You passed an obj to 'set_text' method that is not a textbox/entry widget: %s" % repr(textbox))
+
+    textbox.insert(0, text)
 
 
 class FileProcessingGui:
@@ -56,22 +62,22 @@ class FileProcessingGui:
         self.inlabel = Label(frame_infile, text="Input File:    ")
         self.inlabel.pack(side=LEFT)
 
-        self.infiletext = Text(frame_infile)
-        set_text(self.infiletext, default_in)
-        self.infiletext.pack(side=LEFT)
-        self.infiletext.config(height=1, width=55, state=NORMAL)
+        self.infileEntry = Entry(frame_infile)
+        set_text(self.infileEntry, default_in)
+        self.infileEntry.pack(side=LEFT)
+        self.infileEntry.config(width=55, state=NORMAL)
 
         self.selinfilebtn = Button(frame_infile, text="...", width=4, command=self.sel_input_file)
-        self.selinfilebtn.pack(side=RIGHT)
+        self.selinfilebtn.pack(side=RIGHT, padx=5, pady=5)
 
         # Setup frame_outfile
         self.outlabel = Label(frame_outfile, text="Output File: ")
         self.outlabel.pack(side=LEFT)
 
-        self.outfiletext = Text(frame_outfile)
-        self.outfiletext.config(height=1, width=55, state=NORMAL)
-        self.outfiletext.insert("1.0", default_out)
-        self.outfiletext.pack(side=LEFT)
+        self.outfileEntry = Entry(frame_outfile)
+        self.outfileEntry.config(width=55, state=NORMAL)
+        set_text(self.outfileEntry, default_out)
+        self.outfileEntry.pack(side=LEFT)
 
         self.seloutfilebtn = Button(frame_outfile, text="...", width=4, command=self.sel_output_file)
         self.seloutfilebtn.pack(side=RIGHT, padx=5, pady=5)
@@ -89,23 +95,22 @@ class FileProcessingGui:
         self.runbtn.config(text="Run")
         filename = askopenfilename()
         if filename != "":
-            set_text(self.infiletext, filename)
+            set_text(self.infileEntry, filename)
 
     def sel_output_file(self):
         self.runbtn.config(text="Run")
         filename = asksaveasfilename(defaultextension=self.def_out_ext)
         if filename != "":
-            set_text(self.outfiletext, filename)
+            set_text(self.outfileEntry, filename)
 
     def process_file(self):
         self.runbtn.config(text="Run")
-        in_file = self.infiletext.get("1.0", END).strip()
-        out_file = self.outfiletext.get("1.0", END).strip()
-        inputfile = outputfile = ""
+        in_file = self.infileEntry.get().strip()
+        out_file = self.outfileEntry.get().strip()
 
         # Make sure filename ends with correct extension
         if not out_file.lower().endswith(self.def_out_ext):
-            out_file = out_file + self.def_out_ext
+            out_file += self.def_out_ext
 
         try:
             inputfile = open(in_file, 'r')
