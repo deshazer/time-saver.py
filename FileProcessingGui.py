@@ -3,8 +3,8 @@
 #
 # You must pass the containing widget as the 1st argument and the function
 # you wish to run on the input file as the 2nd argument. This is a function
-# you will define but currently that function should accept inputfile
-# and outputfile parameters. Note that these are
+# you will define but currently that function should accept inputfilename
+# and outputfilename parameters.
 #
 # Modify the FileProcessingGui class variables def_out_ext, default_in,
 # and default_out to change the extension the output file will as saved as,
